@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="de">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Training</title>
+    <link rel="stylesheet" href="training.css">
+    </head>
+    <body>
+        <img id="menu-icon" src="Images/menu.png"></div>
+        <div id="side-bar">
+            <a href="training-newsession.html" class="menu-category">Training</a>
+            <a class="menu-category">Ernährung</a>
+            <a class="menu-category" link="">To Do's</a>
+            <a href="rezepte.html" class="menu-category" link="">Rezepte</a>
+            <a class="menu-category" link="">Finanzen</a>
+        </div>
+
+        <div class="container">
+            <h1 id="header">MasterMind</h1>
+            <div id="content">
+                <div id="nav-bar">
+                    <a href="training-newsession.html" class="menu-category">Einheit hinzufügen</a>
+                    <a href="training-overview.html" class="menu-category">Übersicht</a>
+                    <a href="training-calender.html" class="menu-category">Kalender</a>
+                </div>
+                <div id="newSession">
+                    <div class="dropdown">
+                        <button class="dropdown-button">Trainingsart wählen...</button>
+                        <img src="chevron-icon-size_64.png">
+
+                        <div class="dropdown-content">
+                            <a onclick="setValue('Push-Day')">Push-Day</a>
+                            <a onclick="setValue('Pull-Day')">Pull-Day</a>
+                            <a onclick="setValue('Leg-Day')">Leg-Day</a>
+                            <a onclick="dropdownContent.classList.toggle('show');">Andere Trainingsart</a>
+                        </div>
+                    </div>
+                    <div class="dropdown">
+                        <button class="dropdown-button">Anzahl der Sätze</button>
+
+                        <div class="dropdown-content">
+                            <a onclick="setValue('2')">2</a>
+                            <a onclick="setValue('3')">3</a>
+                            <a onclick="setValue('4')">4</a>
+                            <a onclick="setValue('5')">5</a>
+                            <a onclick="setValue('6')">6</a>
+                            <a>Andere Satzanzahl</a>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+        <script src="training.js"></script>
+    </body>
+</html>
