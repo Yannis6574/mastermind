@@ -1,0 +1,170 @@
+:root {
+    --primary: #4f46e5;
+    --primary-hover: #4338ca;
+    --bg: #f9fafb;
+    --card: #ffffff;
+    --border: #e5e7eb;
+    --text: #111827;
+    --text-light: #6b7280;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: var(--bg);
+    margin: 0;
+    color: var(--text);
+    display: flex;
+}
+
+
+.container {
+    display: flex;
+    justify-content: center;
+}
+
+h1 {
+    font-weight: 200;
+    width: 100vw;
+    text-align: center;
+}
+
+#side-bar {
+    height: 100vh;
+    width: 15vw;
+    position: fixed;
+    top: 0;
+    left: 0;
+    padding-top: 70px;
+    background-color: white;
+    box-shadow: 0 0 10px rgba(0,0,0,0.3);
+    display: flex;
+    flex-direction: column;
+    transform: translateX(0);
+    transition: transform 0.3s ease;
+
+    z-index: 500;
+}
+
+/* Sidebar versteckt */
+#side-bar.hidden {
+    transform: translateX(-100%);
+}
+
+#menu-icon {
+    height: 30px;
+    width: 30px;
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    z-index: 1000;
+}
+
+.menu-category {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    height: 4em;
+
+    text-decoration: none;
+    color: black;
+
+    background-color: white;
+    border-radius: 5px;
+
+    font-family: 'Inter', sans-serif;
+    font-size: 15px;
+}
+
+.menu-category:hover {
+    background-color: #f3f3f3;
+}
+
+.content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 4em;
+}
+
+#finance-container {
+    margin-top: 2em;
+    display: flex;
+    gap: 1em;
+    background: var(--card);
+    padding: 1.5em;
+    border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+    display: flex;
+    gap: 1em;
+    align-items: center;
+}
+
+.finance-input-objects {
+    height: 3em;
+    padding: 0 1em;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    font-size: 0.95rem;
+    transition: all 0.2s ease;
+    outline: none;
+    background: #fff;
+}
+
+.finance-input-objects:hover {
+    border-color: var(--primary);
+}
+
+.finance-input-objects:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.15);
+}
+
+select.finance-input-objects {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+
+    padding-right: 2.5em;
+    cursor: pointer;
+
+    background-image: url("data:image/svg+xml;utf8,<svg fill='%236b7280' height='20' viewBox='0 0 20 20' width='20' xmlns='http://www.w3.org/2000/svg'><path d='M5 7l5 5 5-5z'/></svg>");
+    background-repeat: no-repeat;
+    background-position: right 0.7em center;
+}
+
+#save-btn {
+    padding: 0.8em 2em;
+    
+    background: var(--primary);
+    color: white;
+    
+    border: solid;
+    border-radius: 8px;
+    
+    font-size: 0.95rem;
+    font-weight: 500;
+    
+    cursor: pointer;
+    
+    transition: all 0.2s ease;
+}
+
+/* Hover */
+#save-btn:hover {
+    background: var(--primary-hover);
+    transform: translateY(-1px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+/* Klick-Effekt */
+#save-btn:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+/* Fokus (Accessibility) */
+#save-btn:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.2);
+}
