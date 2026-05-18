@@ -20,7 +20,7 @@
         <div class="content">
             <h1>MasterMind</h1>
             <div id="finance-container">
-                <input type="text" id="finance-input" class="finance-input-objects" placeholder="in €">
+                <input id="finance-input" class="finance-input-objects" placeholder="in €" type="number" step="0.01" min="0">
                 <select name="financial-type" id="financial-type" class="finance-input-objects">
                     <option value="food-at-work">Essen (Arbeit)</option>
                     <option value="food-privat">Essen (privat)</option>
@@ -35,6 +35,21 @@
                     <option value="clothing">Kleidung</option>
                 </select>
                 <button id="save-btn">Speichern</button>
+            </div>
+            <div id="finance-overview">
+                <p>Daten</p>
+                <div id="full-price">
+                    <p>Gesamtausgaben:</p>
+                    <p id="full-price-value"></p>
+                </div>
+                <div id="highest-section">
+                    <p>Höchste Ausgabenart:</p>
+                    <p id="highest-section-value"></p>
+                </div>
+            </div>
+            <div id="finance-dashboard">
+                <p>Auswertung</p>
+                <div id="columns"></div>
             </div>
         </div>
         <script src="finanzen.js"></script>
