@@ -25,4 +25,4 @@ function loadData() {
     console.log(data);
 }
 
-loadData();
+loadData();      
