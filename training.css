@@ -1,5 +1,19 @@
+:root {
+    --primary: #4f46e5;
+    --primary-hover: #4338ca;
+    --bg: #f9fafb;
+    --card: #ffffff;
+    --border: #e5e7eb;
+    --text: #111827;
+    --text-light: #6b7280;
+}
+
 body {
-  font-family: 'Inter', sans-serif;
+    font-family: 'Inter', sans-serif;
+    background-color: var(--bg);
+    margin: 0;
+    color: var(--text);
+    display: flex;
 }
 
 .container {
@@ -51,7 +65,7 @@ h1 {
     align-items: center;
     justify-content: center;
 
-    height: 4em;
+    height: 4rem;
 
     text-decoration: none;
     color: black;
@@ -70,14 +84,17 @@ h1 {
 #nav-bar {
     display: flex;
     flex-direction: row;
-    padding: 5px 15px;
+    padding: 5px 5px;
+    background-color: white;
     box-shadow: 0 0 10px rgba(0,0,0,0.3);
     gap: 10px;
     border-radius: 5px;
+    justify-content: center;
+    margin:0 40px;
 }
 
 #nav-bar a {
-    height: 1.5em;
+    height: 1.5rem;
     width: 150px;
     padding: 5px;
 }
@@ -89,18 +106,21 @@ h1 {
 .dropdown {
     position: relative;
     display: flex;
-    margin-top: 3em;
     color: grey;
+    background-color: white;
     border: 1px solid rgb(188, 188, 188);
     border-radius: 5px;
     padding: 0 5px;
     align-items: center;
-    width: 15em;
+}
+
+#type-dropdown {
+    width: 79.9%;
 }
 
 .dropdown-button {
     width: 100%;
-    padding: 10px 15px;
+    padding: 10px 10px;
     background-color: white;
     cursor: pointer;
     text-align: left;
@@ -116,7 +136,7 @@ h1 {
 
     background-color: white;
     width: 95%;
-
+    z-index: 100;
     box-shadow: 0 0 10px rgba(0,0,0,0.2);
 }
 
@@ -144,10 +164,16 @@ h1 {
 
 #newSession {
     display: flex;
+    margin-top: 3rem;
     flex-direction: column;
     align-items: center;
-    gap: 2em;
-    padding: 3em;
+    gap: 1.3rem;
+    padding: 3rem;
+    background-color: #f3f3f3;
+    border-radius: 5px;
+    border: #6b7280;
+    border-style: solid;
+    border-width: 1px;
 }
 
 .dropdown img {
@@ -156,4 +182,60 @@ h1 {
 
 #header {
     cursor: pointer;
+}
+
+#amount-dropdown {
+    display: none;
+}
+
+#add-button {
+    background-color: rgb(112, 148, 255);
+    width: 80%;
+    height: 2rem;
+    padding: 0 5px;
+    border-radius: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#add-button img {
+    height: 25px;
+    width: 25px;
+}
+
+#exercise-div {
+    width: 82%;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+input:focus, select:focus {
+    outline: none;
+}
+
+select option:hover {
+    background-color: #ce2121;
+}
+
+input,
+select,
+button {
+    height: 2rem;
+
+    padding: 0 0.5rem;
+    font-size: 13px;
+
+    border: 1px solid #ccc;
+    border-radius: 5px;
+
+    background-color: white;
+
+    box-sizing: border-box;
+}
+
+#weight-type-e1 {
+    padding-right: 13px;
 }

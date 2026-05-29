@@ -1,175 +1,190 @@
+// Storage
+
+const STORAGE_KEY = "financeData";
+const observer = new ResizeObserver(syncWidth);
+
 function loadData() {
-    return JSON.parse(localStorage.getItem("financeData")) || [];
+    return JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
 }
 
-function getSumPrice(data) {
-    let fullPrice = 0;
-
-    for (let item of data) {
-        fullPrice += item.amount;
-    }
-
-    return fullPrice.toFixed(2);
+function saveData(data) {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
 }
 
-function getHighestSection(data) {
-    let foodatworkValue = 0;
-    let foodprivatValue = 0;
-    let foodfunValue = 0;
-    let fuelValue = 0;
-    let drinksValue = 0;
-    let smokingValue = 0;
-    let bushValue = 0;
-    let coffeeValue = 0;
-    let kscValue = 0;
-    let gamblingValue = 0;
-    let clothingValue = 0;
+// Finance Categories
 
-    for (let item of data) {
-        if (item.type === "food-at-work") {
-            foodatworkValue += item.amount;
-        }
-        else if (item.type === "food-privat") {
-            foodprivatValue += item.amount;
-        }
-        
-        else if (item.type === "food-fun") {
-            foodfunValue += item.amount;
-        }
-        
-        else if (item.type === "fuel") {
-            fuelValue += item.amount;
-        }
-        
-        else if (item.type === "drinks") {
-            drinksValue += item.amount;
-        }
-        
-        else if (item.type === "smoking") {
-            smokingValue += item.amount;
-        }
-        
-        else if (item.type === "bush") {
-            bushValue += item.amount;
-        }
-        
-        else if (item.type === "coffee") {
-            coffeeValue += item.amount;
-        }
-        
-        else if (item.type === "ksc") {
-            kscValue += item.amount;
-        }
-        
-        else if (item.type === "gambling") {
-            gamblingValue += item.amount;
-        }
-        
-        else if (item.type === "clothing") {
-            clothingValue += item.amount;
+const CATEGORY_LABELS = {
+    "food-at-work": "Essen (Arbeit)",
+    "food-fun": "Essen (Vermeidbar)",
+    "food-privat": "Essen (Zuhause)",
+    "fuel": "Tanken",
+    "drinks": "Kaltgetränke",
+    "smoking": "Zigaretten",
+    "bush": "Hecke",
+    "coffee": "Kaffee",
+    "ksc": "KSC",
+    "gambling": "Zocken",
+    "clothing": "Kleidung"
+};
+
+// Calculations
+
+function getTotalAmount(data) {
+    const total = data.reduce((sum, item) => sum + item.amount, 0);
+    return total.toFixed(2);
+}
+
+function calculateCategoryTotals(data) {
+    const totals = {};
+
+    // Alle Kategorien initialisieren
+    for (const key in CATEGORY_LABELS) {
+        totals[key] = 0;
+    }
+
+    // Summen berechnen
+    for (const item of data) {
+        if (totals[item.type] !== undefined) {
+            totals[item.type] += item.amount;
         }
     }
-    
-    const sections = [
-    { name: "Essen (Arbeit)", value: foodatworkValue },
-    { name: "Essen (Vermeidbar)", value: foodfunValue },
-    { name: "Essen (Zuhause)", value: foodprivatValue },
-    { name: "Tanken", value: fuelValue },
-    { name: "Kaltgetränke", value: drinksValue },
-    { name: "Zigaretten", value: smokingValue },
-    { name: "Hecke", value: bushValue },
-    { name: "Kaffee", value: coffeeValue },
-    { name: "KSC", value: kscValue },
-    { name: "Zocken", value: gamblingValue },
-    { name: "Kleidung", value: clothingValue }
-    ];
+
+    return totals; 
+}
+
+function getCategoryOverview(data) {
+    const totals = calculateCategoryTotals(data);
+
+    const sections = Object.entries(totals).map(([key, value]) => ({
+        key,
+        name: CATEGORY_LABELS[key],
+        value
+    }));
 
     const filteredSections = sections.filter(section => section.value > 0);
 
-    const highestSection = sections.reduce((max, current) => {
-        return current.value > max.value ? current : max;
-    });
+    const highestSection = filteredSections.reduce(
+        (max, current) =>
+            current.value > max.value ? current : max,
+        { value: 0 }
+    );
 
     return {
-    highestText: highestSection.name + " (" + highestSection.value + " €)",
-    filteredSections: filteredSections
-};
+        highestText:
+            highestSection.value > 0
+                ? `${highestSection.name} (${highestSection.value.toFixed(2)} €)`
+                : "Keine Daten vorhanden",
+        filteredSections
+    };
 }
 
+// DOM Elements
 
-const data = loadData();
-document.getElementById("full-price-value").innerHTML = getSumPrice(data) + " €";
-const result = getHighestSection(data);
+const totalPriceElement = document.getElementById("full-price-value");
+const highestSectionElement = document.getElementById("highest-section-value");
 
-document.getElementById("highest-section-value").innerHTML =
-    result.highestText;
+const amountInput = document.getElementById("finance-input");
+const typeSelect = document.getElementById("financial-type");
 
-const filteredSections = result.filteredSections;
+const saveButton = document.getElementById("save-btn");
+const chartContainer = document.getElementById("columns");
 
-document.getElementById("save-btn").addEventListener("click", () => {
-    const amount = parseFloat(document.getElementById("finance-input").value).toFixed(2);
-    const type = document.getElementById("financial-type").value;
+const financeOverview = document.getElementById("finance-overview");
+const financeDashboard = document.getElementById("finance-dashboard");
 
-    const entry = {
-        amount: parseFloat(amount),
-        type: type,
+// UI Rendering
+
+function syncWidth() {
+    financeOverview.style.width = `${financeDashboard.offsetWidth-80}px`;
+}
+
+function renderDashboard() {
+    const data = loadData();
+
+    // Gesamtsumme
+    totalPriceElement.textContent = `${getTotalAmount(data)} €`;
+
+    // Kategorien
+    const overview = getCategoryOverview(data);
+
+    highestSectionElement.textContent = overview.highestText;
+
+    // Diagramm
+    renderChart(overview.filteredSections);
+}
+
+function renderChart(sections) {
+    // Vorherige Balken löschen
+    chartContainer.innerHTML = "";
+
+    if (sections.length === 0) return;
+
+    const maxValue = Math.max(...sections.map(item => item.value));
+    const heightFactor = 180 / maxValue;
+
+    for (const section of sections) {
+
+        // Wrapper
+        const sectionElement = document.createElement("div");
+        sectionElement.classList.add("section");
+
+        // Wert
+        const valueLabel = document.createElement("p");
+        valueLabel.textContent = `${section.value.toFixed(2)} €`;
+        valueLabel.classList.add("chart-value");
+
+        // Balken
+        const column = document.createElement("div");
+        column.classList.add("column");
+        column.style.height = `${section.value * heightFactor}px`;
+
+        // Kategorie
+        const categoryLabel = document.createElement("p");
+        categoryLabel.textContent = section.name;
+        categoryLabel.classList.add("chart-label");
+
+        // Zusammenbauen
+        sectionElement.appendChild(valueLabel);
+        sectionElement.appendChild(column);
+        sectionElement.appendChild(categoryLabel);
+
+        chartContainer.appendChild(sectionElement);
+    }
+}
+
+// Events
+
+saveButton.addEventListener("click", () => {
+
+    const amount = parseFloat(amountInput.value);
+    const type = typeSelect.value;
+
+    // Validierung
+    if (isNaN(amount) || amount <= 0) {
+        alert("Bitte gültigen Betrag eingeben.");
+        return;
+    }
+
+    const newEntry = {
+        amount: parseFloat(amount.toFixed(2)),
+        type,
         date: new Date().toISOString()
     };
 
-    if (amount > 0) {
+    const data = loadData();
 
-        // bestehende Daten holen
-        let data = JSON.parse(localStorage.getItem("financeData")) || [];
+    data.push(newEntry);
 
-        // neuen Eintrag hinzufügen
-        data.push(entry);
+    saveData(data);
 
-        // zurück speichern
-        localStorage.setItem("financeData", JSON.stringify(data));
-        
-        // Anzeige aktualisieren
-        document.getElementById("full-price-value").innerHTML = getSumPrice(data) + " €";
-        document.getElementById("highest-section-value").innerHTML = getHighestSection(data);
+    // Inputs zurücksetzen
+    amountInput.value = "";
 
-        //result = getHighestSection(data);
-        //filteredSections = result.filteredSections;
-        //fillChart(filteredSections);
-    }
+    // UI aktualisieren
+    renderDashboard();
 });
 
-function fillChart(filteredSections) {
-    console.log(filteredSections);
-    const columnTotal = filteredSections.length;
-    const parentContainer = document.getElementById("columns");
-    const maxHeight = Math.max(...filteredSections.map(item => item.value));
-    console.log(maxHeight);
-    const factor = 100/maxHeight;
+renderDashboard();
+syncWidth();
 
-    for (let item of filteredSections) {
-
-        // neue Kategorie einfügen
-        const newSection = document.createElement("div");
-        newSection.classList.add("section");
-        parentContainer.appendChild(newSection);
-        
-        // Wert hinzufügen
-        let newPTag = document.createElement("p");
-        newPTag.innerHTML = item.value +"€";
-        newPTag.style.fontSize = "11px";
-        newSection.appendChild(newPTag);
-
-        // Balken hinzufügen
-        const newColumn = document.createElement("div");
-        newColumn.classList.add("column");
-        newColumn.style.height = item.value * factor * 1.8 + "px";
-        newSection.appendChild(newColumn);
-
-        // Unterschrift hinzufügen
-        newPTag = document.createElement("p");
-        newPTag.innerHTML = item.name;
-        newPTag.style.fontSize = "11px";
-        newSection.appendChild(newPTag);
-    };
-};
-
-fillChart(filteredSections);
+observer.observe(financeDashboard);

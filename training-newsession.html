@@ -26,31 +26,51 @@
                     <a href="training-calender.html" class="menu-category">Kalender</a>
                 </div>
                 <div id="newSession">
-                    <div class="dropdown">
-                        <button class="dropdown-button">Trainingsart wählen...</button>
+                    <div id="type-dropdown" class="dropdown">
+                        <button id="type-value" class="dropdown-button">Trainingsart wählen...</button>
                         <img src="chevron-icon-size_64.png">
 
-                        <div class="dropdown-content">
-                            <a onclick="setValue('Push-Day')">Push-Day</a>
-                            <a onclick="setValue('Pull-Day')">Pull-Day</a>
-                            <a onclick="setValue('Leg-Day')">Leg-Day</a>
-                            <a onclick="dropdownContent.classList.toggle('show');">Andere Trainingsart</a>
+                        <div id="type-content" class="dropdown-content">
+                            <a onclick="setValue('Push-Day', 'type-value', 'type-content')">Push-Day</a>
+                            <a onclick="setValue('Pull-Day', 'type-value', 'type-content')">Pull-Day</a>
+                            <a onclick="setValue('Leg-Day', 'type-value', 'type-content')">Leg-Day</a>
+                            <a>Andere Trainingsart</a>
                         </div>
                     </div>
-                    <div class="dropdown">
-                        <button class="dropdown-button">Anzahl der Sätze</button>
+                    <div id="exercise-div">
+                        <input id="name-e1" type="text" placeholder="Name der Übung">
+                        <div id="machine-dropdown" class="dropdown">
+                            <button id="machine-value" class="dropdown-button">Trainingsgerät wählen...</button>
+                            <img src="chevron-icon-size_64.png">
+                            <div id="machine-div" class="dropdown-content">
+                                <a onclick="setValue('Kurzhantel', 'machine-value', 'machine-div')">Kurzhantel</a>
+                                <a onclick="setValue('Langhantel', 'machine-value', 'machine-div')">Langhantel</a>
+                                <a onclick="setValue('Dip-Barren', 'machine-value', 'machine-div')">Dip-Barren</a>
+                                <a onclick="setValue('Kurzhantel', 'machine-value', 'machine-div')">Klimmzugstange</a>
+                                <a onclick="setValue('Langhantel', 'machine-value', 'machine-div')">Hantelbank</a>
+                                <a onclick="setValue('Dip-Barren', 'machine-value', 'machine-div')">Dip-Barren</a>
+                                <a>Andere Trainingsart</a>
+                            </div>
+                        </div>
+                        
+                    </div>
+                    <div id="add-button">
+                        <img src="plus.png" alt="plus">
+                    </div>
+                    <div id="amount-dropdown" class="dropdown" show>
+                        <button id="amount-value" class="dropdown-button">Anzahl der Sätze</button>
+                        <img src="chevron-icon-size_64.png">
 
-                        <div class="dropdown-content">
-                            <a onclick="setValue('2')">2</a>
-                            <a onclick="setValue('3')">3</a>
-                            <a onclick="setValue('4')">4</a>
-                            <a onclick="setValue('5')">5</a>
-                            <a onclick="setValue('6')">6</a>
+                        <div id="amount-content" class="dropdown-content">
+                            <a onclick="setValue('2', 'amount-value', 'amount-content')">2</a>
+                            <a onclick="setValue('3', 'amount-value', 'amount-content')">3</a>
+                            <a onclick="setValue('4', 'amount-value', 'amount-content')">4</a>
+                            <a onclick="setValue('5', 'amount-value', 'amount-content')">5</a>
+                            <a onclick="setValue('6', 'amount-value', 'amount-content')">6</a>
                             <a>Andere Satzanzahl</a>
                         </div>
                     </div>
                 </div>
-                
             </div>
         </div>
         <script src="training.js"></script>
